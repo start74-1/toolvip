@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Download Tool — Obi</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #000;
+    color: #fff;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  /* Video nền */
+  #bg-video {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    display: none; /* ẩn lúc đầu */
+    filter: brightness(0.35);
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 20px;
+    text-align: center;
+    backdrop-filter: blur(6px);
+  }
+
+  h1 { font-size: 28px; margin-bottom: 8px; }
+  .subtitle { color: #aaa; font-size: 15px; margin-bottom: 30px; }
+
+  .tool-card {
+    background: rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 20px;
+    display: inline-block;
+    text-align: center;
+    transition: 0.3s ease;
+  }
+
+  .tool-card img {
+    width: 230px;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .desc { color: #ccc; margin-bottom: 14px; }
+
+  .btn {
+    display: inline-block;
+    margin: 6px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 15px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .btn-download { background: linear-gradient(90deg,#f59e0b,#ef4444); color: #000; border: none; }
+  .btn-outline { border: 1px solid #6ee7b7; color: #6ee7b7; background: transparent; }
+
+  /* Hiệu ứng khi click */
+  .btn:active {
+    transform: scale(0.96);
+  }
+
+  .btn.flash {
+    animation: flashRed 0.4s ease;
+  }
+
+  @keyframes flashRed {
+    0% { box-shadow: 0 0 10px 2px rgba(255,0,0,0.8); }
+    100% { box-shadow: 0 0 0 0 rgba(255,0,0,0); }
+  }
+
+  footer { margin-top: 40px; color: #999; font-size: 13px; }
+
+  /* Popup full-screen */
+  #promo {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.88);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 20px;
+  }
+  .promo-box {
+    width: 100%;
+    max-width: 520px;
+    background: linear-gradient(180deg, #0b0b0b, #141414);
+    padding: 28px 26px;
+    border-radius: 14px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+    border: 1px solid rgba(255,255,255,0.03);
+    animation: popup 0.38s cubic-bezier(.2,.9,.3,1);
+  }
+  @keyframes popup {
+    from { transform: translateY(8px) scale(0.98); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+  }
+
+  .promo-box h2 { margin-bottom: 10px; font-size: 22px; letter-spacing: 0.6px; }
+  .promo-box p { color: #cbd5e1; margin-bottom: 18px; font-size: 15px; }
+  .promo-actions { display:flex; justify-content:center; gap:12px; margin-top:6px; }
+
+  #close-btn {
+    background: linear-gradient(90deg,#3b82f6,#06b6d4);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 11px 20px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  #close-btn:hover { filter: brightness(1.03); }
+
+  /* small note under tool */
+  .note { color: #9aa3ad; font-size: 13px; margin-top: 10px; display:block; }
+</style>
+</head>
+<body>
+
+<!-- Video nền -->
+<video id="bg-video" autoplay muted loop playsinline></video>
+
+<!-- Popup thông báo -->
+<div id="promo">
+  <div class="promo-box">
+    <h2>❗️ MUA CÁC TOOL KHÁC❗️</h2>
+    <p>Liên hệ Zalo: <a href="https://zalo.me/0964988384" target="_blank" style="color:#6ee7b7;">0964988384</a></p>
+    <p style="font-size:13px;color:#9aa3ad;margin-top:8px;"><strong></strong></p>
+    <div class="promo-actions">
+      <button id="close-btn">Đóng</button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <header>
+    <h1>TOOLS & DOWNLOAD</h1>
+    <p class="subtitle">Tải xong — bắt nhập key → ấn Get Key</p>
+  </header>
+
+  <section class="tool-card">
+    <!-- Gắn ảnh tool bạn gửi -->
+    <img src="https://sf-static.upanhlaylink.com/img/image_202510239155439b95d54fd927d8768ff5599785.jpg" alt="Ảnh Tool" />
+
+    <p class="desc">🔥 Tool VIP - Key vĩnh viễn</p>
+
+    <!-- Nút tải (raw GitHub) -->
+    <a class="btn btn-download" id="download-btn"
+       href="https://raw.githubusercontent.com/USERNAME/REPO/main/files/tool.zip"
+       download>📁 Tải Tool</a>
+
+    <!-- Nút Get Key (link4m) -->
+    <a class="btn btn-outline" id="getkey-btn"
+       href="https://link4m.example/your-path" target="_blank" rel="noopener">🔑 Get Key</a>
+
+    <small class="note">Get Key 1 Lần Dùng Vĩnh Viễn</small>
+  </section>
+
+  <footer>© <span id="year"></span> obi • Tool <a href="https://zalo.me/0964988384" target="_blank">VIP🔥</a></footer>
+</div>
+
+<audio id="click-sound" src="https://raw.githubusercontent.com/USERNAME/REPO/main/assets/click-music.mp3" preload="auto"></audio>
+
+<script>
+  // ===== Tùy chỉnh =====
+  const videoURL = "https://raw.githubusercontent.com/USERNAME/REPO/main/assets/bg.mp4";
+  // ======================
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  const promo = document.getElementById("promo");
+  const closeBtn = document.getElementById("close-btn");
+  const bgVideo = document.getElementById("bg-video");
+  const clickSound = document.getElementById("click-sound");
+  const getKeyBtn = document.getElementById("getkey-btn");
+  const downloadBtn = document.getElementById("download-btn");
+
+  // Khi ấn Đóng
+  closeBtn.addEventListener("click", () => {
+    try { clickSound.play().catch(()=>{}); } catch(e){}
+    promo.style.transition = "opacity 0.4s ease, transform 0.4s ease";
+    promo.style.opacity = "0";
+    promo.style.transform = "translateY(10px) scale(0.98)";
+    setTimeout(() => promo.remove(), 450);
+    bgVideo.src = videoURL;
+    bgVideo.style.display = "block";
+    bgVideo.play().catch(()=>{});
+  });
+
+  // Hiệu ứng flash đỏ khi ấn nút
+  function flashRed(button) {
+    button.classList.add("flash");
+    setTimeout(() => button.classList.remove("flash"), 400);
+  }
+
+  getKeyBtn.addEventListener("click", () => flashRed(getKeyBtn));
+  downloadBtn.addEventListener("click", () => flashRed(downloadBtn));
+
+  // ESC để đóng popup
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && document.getElementById("promo")) closeBtn.click();
+  });
+</script>
+
+</body>
+</html>
